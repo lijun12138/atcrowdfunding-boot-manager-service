@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.atcrowdfunding.manger.dao.ManagerDao" >
+  <resultMap id="BaseResultMap" type="com.atguigu.atcrowdfunding.common.bean.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="loginacct" property="loginacct" jdbcType="VARCHAR" />
+    <result column="userpswd" property="userpswd" jdbcType="CHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="CHAR" />
+  </resultMap>
+
+  
+  <select id="querySelfPermission" resultType="com.atguigu.atcrowdfunding.common.bean.Permission">
+  	SELECT DISTINCT  t_permission.* FROM 
+		t_permission ,t_role_permission,t_role,t_user_role,t_user
+		WHERE 
+		t_permission.id=t_role_permission.permissionid
+		AND t_role_permission.roleid=t_role.id
+		AND t_role.id=t_user_role.roleid
+		AND t_user_role.userid=t_user.id
+		AND t_user.id=#{id}
+  </select>
+  
+  <select id="queryUserByParam" resultMap="BaseResultMap" >
+    select id, loginacct, userpswd, username, email, createtime
+    from t_user
+    where loginacct=#{loginacct} and userpswd=#{userpswd}
+  </select>
+  
+  
+</mapper>
